@@ -1,0 +1,7 @@
+train: ./datasets/sonar/train/images
+val: ./datasets/sonar/valid/images
+
+nc: 1
+
+names:
+  0: 'Crab-Pot'

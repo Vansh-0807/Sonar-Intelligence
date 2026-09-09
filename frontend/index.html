@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1014">
+  <title>SONAR / Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="intro" class="intro">
+    <div class="intro-grid"></div>
+    <div class="intro-geometry geometry-one"></div>
+    <div class="intro-geometry geometry-two"></div>
+
+    <div class="intro-inner">
+      <div class="intro-topline">
+        <div class="eyebrow">SIH 2026 / MARINE INTELLIGENCE SYSTEM</div>
+        <div class="mono tiny">07 / 09 / 2026</div>
+      </div>
+
+      <div class="intro-logo-row">
+        <div>
+          <div class="intro-mark">SONAR</div>
+          <div class="intro-title">INTELLIGENCE</div>
+        </div>
+
+        <div class="intro-sonar" aria-hidden="true">
+          <div class="sonar-ring ring-a"></div>
+          <div class="sonar-ring ring-b"></div>
+          <div class="sonar-ring ring-c"></div>
+          <div class="sonar-axis axis-v"></div>
+          <div class="sonar-axis axis-h"></div>
+          <div class="sonar-sweep"></div>
+          <i class="sonar-contact contact-a"></i>
+          <i class="sonar-contact contact-b"></i>
+          <i class="sonar-contact contact-c"></i>
+          <span class="sonar-center"></span>
+        </div>
+      </div>
+
+      <p class="intro-copy">
+        Side-scan sonar analysis, target intelligence, thermal signature review and mission control.
+      </p>
+
+      <div class="intro-capabilities" aria-label="System capabilities">
+        <span>MISSION CONTROL</span>
+        <span>SIDE-SCAN SONAR</span>
+        <span>AI TARGET DETECTION</span>
+        <span>THERMAL REVIEW</span>
+        <span>REPORTING</span>
+      </div>
+
+      <div class="intro-actions">
+        <button id="enterBtn" class="black-btn">INITIALIZE SONAR INTELLIGENCE <span>↗</span></button>
+</div>
+</div>
+
+      <div class="intro-foot">
+        <span>SIMULATION / EDGE READY</span>
+        <span>OCEAN-07</span>
+        <span>GULF OF KHAMBHAT</span>
+      </div>
+    </div>
+
+    <div class="intro-index">013</div>
+  </div>
+
+  <section id="missionHub" class="mission-hub is-hidden" aria-labelledby="missionHubTitle">
+    <div class="mission-hub-inner">
+      <div class="mission-hub-head">
+        <div>
+          <div class="eyebrow">SONAR INTELLIGENCE / MISSION HUB</div>
+          <h1 id="missionHubTitle">SELECT MISSION</h1>
+        </div>
+        <div class="mono tiny">MISSION CONTEXT</div>
+      </div>
+      <div class="mission-hub-layout">
+        <div>
+          <div class="mission-hub-label">EXISTING MISSIONS</div>
+          <div id="missionList" class="mission-list"></div>
+          <button id="newMissionBtn" class="outline-btn mission-create-trigger">+ CREATE NEW MISSION</button>
+        </div>
+        <form id="missionForm" class="mission-form is-hidden">
+          <div class="mission-hub-label">CREATE NEW MISSION</div>
+          <label>MISSION NAME<input name="name" value="Pacific Ocean Exploration" required></label>
+          <label>REGION<input name="region" value="Pacific Ocean" required></label>
+          <label>MISSION TYPE<select name="type"><option>Marine Debris Survey</option><option>Underwater Anomaly Survey</option><option>Environmental Survey</option></select></label>
+          <label>AUV<select name="auv"><option>AUV-03</option><option>AUV-01</option><option>AUV-02</option></select></label>
+          <div class="mission-form-coordinates"><label>LATITUDE<input name="lat" type="number" step="0.0001" placeholder="21.4872"></label><label>LONGITUDE<input name="lng" type="number" step="0.0001" placeholder="72.9011"></label></div>
+          <label>SURVEY AREA<input name="area" value="120" type="number" min="0"></label>
+          <fieldset><legend>MISSION OBJECTIVES</legend><label><input type="checkbox" checked> Marine debris detection</label><label><input type="checkbox" checked> Underwater anomaly detection</label><label><input type="checkbox"> Environmental survey</label><label><input type="checkbox"> Target verification</label></fieldset>
+          <button class="black-btn" type="submit">CREATE MISSION ↗</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div id="app" class="app is-hidden">
+    <aside class="rail" id="rail">
+      <button class="brand" id="brandBtn" aria-label="Collapse navigation">
+        <span class="brand-box">O</span>
+          <span class="brand-copy">SONAR<br><small>INTELLIGENCE</small></span>
+      </button>
+      <div class="rail-line"></div>
+
+      <div class="rail-section-label">OPERATIONS</div>
+      <nav class="rail-nav">
+        <button class="rail-item is-active" data-page="mission"><span class="rail-no">01</span><span>COMMAND CENTER</span></button>
+        <button class="rail-item" data-page="sonar"><span class="rail-no">02</span><span>SONAR</span></button>
+        <button class="rail-item" data-page="thermal"><span class="rail-no">03</span><span>THERMAL</span></button>
+        <button class="rail-item" data-page="targets"><span class="rail-no">04</span><span>TARGETS</span></button>
+        <button class="rail-item" data-page="analytics"><span class="rail-no">05</span><span>ANALYSIS</span></button>
+        <button class="rail-item" data-page="reports"><span class="rail-no">06</span><span>REPORTS</span></button>
+      </nav>
+
+      <div class="rail-bottom">
+        <button class="icon-btn" id="searchBtn" title="Search">⌕</button>
+        <button class="icon-btn" id="themeBtn" title="Switch theme">◐</button>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle" id="mobileToggle">☰</button>
+          <div>
+            <div class="eyebrow">MARINE SURVEY / COMMAND CENTER</div>
+            <h1 id="pageTitle">MISSION CONTROL</h1>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button id="currentMissionBtn" class="current-mission" title="Select mission"><span>CURRENT MISSION</span><b id="currentMissionName">GULF OF KHAMBHAT SURVEY</b><i>▼</i></button>
+          <div class="header-meta"><span class="status-dot"></span> AI ENGINE ONLINE</div>
+<button class="icon-btn alert-icon" id="notifyBtn" title="Alerts" aria-label="Alerts">⚠</button>
+        </div>
+      </header>
+
+      <div class="page-wrap">
+        <section id="page-mission" class="page">
+          <div class="hero-strip">
+            <div>
+              <div class="eyebrow">CURRENT MISSION / <span id="missionStatus">ACTIVE</span></div>
+              <h2 id="missionName">GULF OF KHAMBHAT SURVEY</h2>
+              <div id="missionRegion" class="mission-region">GULF OF KHAMBHAT</div>
+            </div>
+            <div class="mission-summary">
+              <div><span>START</span><b>06 SEP 2026 / 09:58 UTC</b></div>
+              <div><span>DISTANCE</span><b id="missionDistance">32.8 km</b></div>
+              <div><span>AREA</span><b id="missionArea">84.2 km²</b></div>
+            </div>
+          </div>
+
+          <div class="mission-grid">
+            <div class="map-panel large">
+              <div class="panel-top">
+                <span>LIVE MISSION MAP</span>
+                <div class="panel-actions">
+                  <button class="text-btn active">LIVE</button>
+                  <button class="text-btn" data-map-layer="coverage">COVERAGE</button>
+                  <button class="text-btn" data-map-layer="targets">TARGETS</button>
+                  <button class="text-btn map-fullscreen-btn" id="mapFullscreenBtn" title="Fullscreen map" aria-label="Fullscreen map">⛶</button>
+                </div>
+              </div>
+              <div id="missionMap" class="map"></div>
+              <div class="map-overlay top-left">
+                <div class="map-coordinate" id="cursorCoord">21.4872° N / 72.9011° E</div>
+                <div class="map-scale">1000 m</div>
+              </div>
+              <div class="map-overlay bottom-left">
+                <span class="legend-dot auv"></span>AUV-01
+                <span class="divider"></span>
+                <span class="legend-ring"></span>TARGET
+                <span class="divider"></span>
+                <span class="legend-route"></span>ROUTE
+              </div>
+              <div class="map-overlay top-right">
+                <div class="coverage-number">78.4%</div>
+                <div class="eyebrow">SURVEY COVERAGE</div>
+                <div class="coverage-detail">82.1 km² SURVEYED / 22.6 km² REMAINING</div>
+              </div>
+            </div>
+
+            <aside class="mission-side">
+              <div class="side-card priority-card">
+                <div class="card-head"><span>ATTENTION</span><span class="count">03</span></div>
+                <div class="priority-title">HIGH PRIORITY TARGETS</div>
+                <div id="priorityList" class="mini-list"></div>
+                <button class="outline-btn full" data-page-jump="targets">VIEW ALL TARGETS ↗</button>
+              </div>
+
+              <div class="side-card">
+                <div class="card-head"><span>AUV-01 / VEHICLE</span><span class="live-label">LIVE</span></div>
+                <div class="telemetry-grid">
+                  <div><span>DEPTH</span><b id="telemDepth">84.2</b><small>m</small></div>
+                  <div><span>SPEED</span><b id="telemSpeed">2.8</b><small>m/s</small></div>
+                  <div><span>HEADING</span><b id="telemHeading">127</b><small>°</small></div>
+                  <div><span>BATTERY</span><b id="telemBattery">78</b><small>%</small></div>
+                </div>
+                <div class="signal-row"><span>SIGNAL</span><div class="line-meter"><i style="width:92%"></i></div><b>92%</b></div>
+              </div>
+
+              <div class="side-card">
+                <div class="card-head"><span>MISSION ACTIVITY</span><span id="clock">14:32:08</span></div>
+                <div class="timeline">
+                  <div><i class="timeline-dot"></i><span>ANOMALY DETECTED</span><b>14:28</b></div>
+                  <div><i class="timeline-dot"></i><span>SECTOR C-14 COMPLETE</span><b>14:05</b></div>
+                  <div><i class="timeline-dot"></i><span>SECONDARY PASS</span><b>13:51</b></div>
+                  <div><i class="timeline-dot"></i><span>MISSION STARTED</span><b>09:58</b></div>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat"><span>SONAR PINGS</span><b id="pings">18,492</b><small>processed</small></div>
+            <div class="stat"><span>ANOMALIES</span><b>327</b><small>detected</small></div>
+            <div class="stat"><span>DEBRIS</span><b>214</b><small>identified</small></div>
+            <div class="stat"><span>AI CONFIDENCE</span><b>94.8%</b><small>demo metric</small></div>
+            <div class="stat"><span>AREA ANALYZED</span><b>482 km²</b><small>cumulative</small></div>
+          </div>
+        </section>
+
+        <section id="page-sonar" class="page is-hidden">
+          <div class="section-title">
+            <div><div class="eyebrow">02 / SONAR INTELLIGENCE</div><h2>ACOUSTIC INSPECTION</h2></div>
+            <div class="section-actions sonar-actions">
+              <label class="outline-btn upload-sonar-label" for="uploadSonarBtn">UPLOAD IMAGE +</label>
+              <input id="uploadSonarBtn" type="file" accept="image/*" hidden>
+              <button class="black-btn" id="runScanBtn">RUN ANALYSIS ↗</button>
+            </div>
+          </div>
+
+          <div class="sonar-coordinate-bar">
+            <div class="coordinate-heading">
+              <span class="eyebrow">TARGET LOCATION</span>
+              <span class="coordinate-help">ENTER COORDINATES OR PICK A POINT FROM THE MISSION MAP</span>
+            </div>
+            <div class="coordinate-fields">
+              <label>
+                <span>LATITUDE</span>
+                <input id="targetLatInput" type="number" step="0.0001" inputmode="decimal" placeholder="21.4872">
+              </label>
+              <label>
+                <span>LONGITUDE</span>
+                <input id="targetLngInput" type="number" step="0.0001" inputmode="decimal" placeholder="72.9011">
+              </label>
+              <button id="pickMapCoordinateBtn" class="outline-btn">PICK FROM MAP</button>
+              <button id="locateCoordinateBtn" class="black-btn">LOCATE ON MAP ↗</button>
+            </div>
+            <div id="coordinateStatus" class="coordinate-status">NO TARGET LOCATION SELECTED</div>
+          </div>
+
+          <div class="sonar-processing-strip">
+            <div class="processing-group">
+              <div class="eyebrow">PROCESSING PIPELINE</div>
+              <div class="processing-steps">
+                <span>RAW SONAR</span><i>→</i><span>NOISE REDUCTION</span><i>→</i><span>MOTION COMPENSATION</span><i>→</i><span>SLANT-RANGE CORRECTION</span><i>→</i><span>ATR CLASSIFICATION</span><i>→</i><span>GEOREFERENCING</span>
+              </div>
+            </div>
+            <div class="motion-status">
+              <div class="eyebrow">AUV MOTION COMPENSATION</div>
+              <span>ROLL <b>STABLE</b></span><span>PITCH <b>STABLE</b></span><span>HEAVE <b>CORRECTED</b></span>
+            </div>
+          </div>
+
+          <div class="sonar-layout">
+            <div class="viewer-panel">
+              <div class="panel-top"><span>SSS-2401 / LIVE PING STREAM</span><span id="sonarStatus">READY</span></div>
+              <div class="sonar-stage" id="sonarStage">
+                <canvas id="sonarCanvas"></canvas>
+                <div class="sonar-reticle"></div>
+                <div id="scanSweep"></div>
+                <div class="target-frame t1">MD-042</div>
+                <div class="target-frame t2">AN-118</div>
+                <div class="sonar-hud tl"><span>RANGE</span><b>120 m</b></div>
+                <div class="sonar-hud tr"><span>PING</span><b>18492</b></div>
+                <div class="sonar-hud bl"><span>DEPTH</span><b>84.2 m</b></div>
+                <div class="sonar-hud br"><span>GAIN</span><b>64</b></div>
+                <div id="analysisOverlay" class="analysis-overlay is-hidden">
+                  <div class="eyebrow">AI ANALYSIS</div>
+                  <strong id="analysisPct">0%</strong>
+                  <div class="analysis-bar"><i id="analysisBar"></i></div>
+                  <span id="analysisText">Preparing input...</span>
+                </div>
+              </div>
+              <div class="viewer-controls">
+                <div class="segmented">
+                  <button class="active" data-view="raw">RAW</button>
+                  <button data-view="enhanced">ENHANCED</button>
+                  <button data-view="ai">AI OVERLAY</button>
+                </div>
+                <div class="ping-control"><span>◀</span><input id="pingSlider" type="range" min="0" max="100" value="64"><span>▶</span></div>
+                <div class="viewer-readout">CONTRAST <b>62</b> / BRIGHTNESS <b>48</b></div>
+              </div>
+            </div>
+
+            <aside class="inspection-panel">
+              <div class="panel-top"><span>SELECTED TARGET</span><button class="close-small" id="clearTarget">×</button></div>
+              <div id="selectedTarget" class="target-detail"></div>
+              <div class="inspection-note">
+                <span class="eyebrow">NEXT SENSOR</span>
+                <b>THERMAL SIGNATURE</b>
+                <p>Compare localized temperature anomalies with acoustic evidence before final classification.</p>
+                <button class="outline-btn full" data-page-jump="thermal">OPEN THERMAL ↗</button>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="page-thermal" class="page is-hidden">
+          <div class="section-title">
+            <div><div class="eyebrow">03 / THERMAL SIGNATURE ANALYSIS</div><h2>SECONDARY SENSOR REVIEW</h2></div>
+            <div class="section-actions"><button class="outline-btn" id="thermalResetBtn">RESET VIEW</button><button class="black-btn" id="runThermalBtn">SCAN THERMAL ↗</button></div>
+          </div>
+
+          <div class="thermal-grid">
+            <div class="thermal-viewer viewer-panel">
+              <div class="panel-top"><span>THERMAL / SENSOR FIELD</span><span id="thermalStatus">READY</span></div>
+              <div class="thermal-stage">
+                <canvas id="thermalCanvas"></canvas>
+                <div class="thermal-grid-lines"></div>
+                <div class="thermal-crosshair"></div>
+                <div class="thermal-tag tag-hot">T-01 / +2.7°C</div>
+                <div class="thermal-tag tag-cool">T-02 / -0.6°C</div>
+                <div class="thermal-scale"><span>+4°C</span><i></i><span>0°C</span><i></i><span>-2°C</span></div>
+              </div>
+              <div class="viewer-controls thermal-controls">
+                <div class="segmented"><button class="active" data-thermal-view="field">FIELD</button><button data-thermal-view="contrast">CONTRAST</button><button data-thermal-view="contours">CONTOURS</button></div>
+                <div class="thermal-readout">AMBIENT <b>23.4°C</b> / TARGET ΔT <b>+2.7°C</b></div>
+              </div>
+            </div>
+
+            <aside class="thermal-inspector viewer-panel">
+              <div class="panel-top"><span>THERMAL INTERPRETATION</span><span>LIVE</span></div>
+              <div class="thermal-class">
+                <div class="eyebrow">SECONDARY SENSOR / THERMAL EVIDENCE</div>
+                <h3 id="thermalTargetName">MD-042 / METAL DEBRIS</h3>
+                <div class="thermal-classification">SONAR CLASSIFICATION <b>METAL DEBRIS — 96%</b></div>
+                <div class="thermal-score"><b id="thermalMatch">81%</b><span>THERMAL MATCH</span></div>
+                <div class="thermal-assessment">FINAL ASSESSMENT <b>HIGH CONFIDENCE</b></div>
+              </div>
+              <div class="thermal-factors">
+                <div><span>LOCAL ΔT</span><b>+2.7°C</b><small>above surrounding field</small></div>
+                <div><span>STABILITY</span><b>HIGH</b><small>persistent across sample window</small></div>
+                <div><span>SHAPE COHERENCE</span><b>0.84</b><small>aligned with sonar geometry</small></div>
+                <div><span>LIKELY CLASS</span><b>METALLIC / STRUCTURAL</b><small>sensor evidence only</small></div>
+              </div>
+              <div class="thermal-disclaimer">
+                <span>NOTE</span>
+                <p>Thermal mode is a secondary sensor layer. Underwater temperature signatures do not replace sonar classification; they help distinguish thermal anomalies, discharge points and some material/structure patterns when suitable sensor data is available.</p>
+              </div>
+              <div class="thermal-actions"><button class="outline-btn" data-page-jump="sonar">RETURN TO SONAR</button><button class="black-btn" id="thermalConfirmBtn">ADD TO EVIDENCE</button></div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="page-targets" class="page is-hidden">
+          <div class="section-title"><div><div class="eyebrow">04 / DETECTION INTELLIGENCE</div><h2>TARGET REGISTRY</h2></div><div class="search-inline"><span>⌕</span><input id="targetSearch" placeholder="Search target / type / location"></div></div>
+          <div class="targets-layout">
+            <div class="target-table-panel"><div class="filter-row"><button class="filter-pill active" data-filter="ALL">ALL <b>08</b></button><button class="filter-pill" data-filter="HIGH">HIGH <b>03</b></button><button class="filter-pill" data-filter="MEDIUM">MED <b>03</b></button><button class="filter-pill" data-filter="LOW">LOW <b>02</b></button><span class="table-spacer"></span><button class="outline-btn" id="exportBtn">EXPORT JSON ↓</button></div><div id="targetTable"></div></div>
+            <aside class="target-inspector"><div class="panel-top"><span>INSPECTOR</span><span id="inspectorId">—</span></div><div id="targetInspectorEmpty" class="empty-state">Select a target to inspect its sonar evidence, confidence and recommended action.</div><div id="targetInspector" class="is-hidden"></div></aside>
+          </div>
+        </section>
+
+        <section id="page-analytics" class="page is-hidden">
+          <div class="section-title"><div><div class="eyebrow">05 / INTELLIGENCE ANALYSIS</div><h2>MISSION ANALYTICS</h2></div><div class="analytics-kicker">MODEL / ABYSSAL-V2 / DEMO</div></div>
+          <div class="analytics-grid">
+            <div class="metric-panel wide"><div class="panel-top"><span>DETECTIONS BY CATEGORY</span><span>127 TOTAL</span></div><div id="categoryBars" class="category-bars"></div></div>
+            <div class="metric-panel"><div class="panel-top"><span>CONFIDENCE DISTRIBUTION</span></div><div id="confidenceBars" class="confidence-bars"></div></div>
+            <div class="metric-panel wide"><div class="panel-top"><span>WEEKLY DETECTION TREND</span><span>14 PERIODS</span></div><canvas id="trendCanvas" class="trend-canvas"></canvas></div>
+            <div class="metric-panel"><div class="panel-top"><span>MISSION READOUT</span></div><div class="readout-list"><div><span>HIGHEST RISK</span><b>Fishing Equipment</b></div><div><span>HOTSPOT</span><b>Sector C-14</b></div><div><span>MODEL ACCURACY</span><b>94.8%</b></div><div><span>CHANGE / MONTH</span><b>+18.2%</b></div></div></div>
+          </div>
+        </section>
+
+        <section id="page-reports" class="page is-hidden">
+          <div class="section-title"><div><div class="eyebrow">06 / REPORTING</div><h2>MISSION REPORT</h2></div><button class="black-btn" id="exportReportBtn">EXPORT REPORT ↗</button></div>
+          <div class="report-sheet"><div class="report-head"><div><div class="eyebrow">MISSION SNAPSHOT / <span id="reportMissionName">GULF OF KHAMBHAT SURVEY</span></div><h2 id="reportMissionNameHeading">GULF OF KHAMBHAT SURVEY</h2></div><div class="report-code">RPT-2026-0907-07</div></div><div class="report-grid"><div><span>AREA ANALYZED</span><b>482 km²</b></div><div><span>SONAR PINGS</span><b>18,492</b></div><div><span>TARGETS</span><b>127</b></div><div><span>HIGH PRIORITY</span><b>03</b></div><div><span>AI CONFIDENCE</span><b>94.8%</b></div><div><span>SURVEY COVERAGE</span><b>78.4%</b></div></div><div class="report-note"><span class="eyebrow">OPERATOR NOTE</span><p>Three high-priority targets require verification. Two are classified debris candidates; one remains an unknown anomaly pending secondary sonar inspection. Thermal signature data can be attached as supporting evidence when available.</p></div></div>
+        </section>
+      </div>
+    </main>
+
+    <div id="notifyPanel" class="floating-panel is-hidden"><div class="panel-top"><span>ALERTS / 03</span><button class="close-small" id="closeNotify">×</button></div><div class="alert-item"><b>MD-042</b><span>Metal debris / 96.4% / HIGH</span></div><div class="alert-item"><b>AN-118</b><span>Unknown anomaly / 82.1% / HIGH</span></div><div class="alert-item"><b>FD-009</b><span>Fishing equipment / 94.3% / HIGH</span></div></div>
+
+    <div id="commandPalette" class="command-backdrop is-hidden"><div class="command-box"><div class="command-input"><span>⌕</span><input id="commandInput" autofocus placeholder="Search mission, target, action..."><kbd>ESC</kbd></div><div id="commandResults"></div></div></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="mockData.js"></script>
+  <script src="map.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

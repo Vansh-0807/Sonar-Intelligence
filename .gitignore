@@ -1,0 +1,22 @@
+# Environments
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Django
+db.sqlite3
+media/scans/
+media/scans_processed/
+
+# Datasets (Do not push 500MB to GitHub!)
+backend/datasets/
+
+# Only ignore the large model runs EXCEPT for the best.pt and last.pt (checkpoint)
+backend/runs/
+!backend/runs/detect/sonar_debris_model/weights/best.pt
+!backend/runs/detect/sonar_debris_model/weights/last.pt
